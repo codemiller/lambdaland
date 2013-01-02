@@ -11,7 +11,7 @@ class Dog {
         if (property_exists($this, $key)) {
             return $this->{$key};
         } else {
-        throw new \RuntimeException('This object is immutable');
+            throw new \RuntimeException('Property doesn't exist');
         }
     }
 
