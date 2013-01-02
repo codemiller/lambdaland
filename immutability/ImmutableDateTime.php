@@ -66,10 +66,33 @@ class ImmutableDateTime
 		$this->_dt = $datetime;
 	}
 
+    public function setDate($year, $month, $day) {
+        throw new ImmutableException();
+    }
+    public function setISODate($year, $week, $day=null) {
+        throw new ImmutableException();
+    }
+    public function setTime($hour, $minute, $second=null) {
+        throw new ImmutableException();
+    }
+    public function setTimestamp($timestamp) {
+        throw new ImmutableException();
+    }
+    public function setTimezone($timezone) {
+        throw new ImmutableException();
+    }
+
+}
+
+class ImmutableException extends \Exception
+{
+    public function __construct()
+    {
+        parent::__construct("Cannot modify DateTime\DateTime instance, its immutable!");
+    }
 }
 
 $dt = new ImmutableDateTime('2011-09-21');
-
-print $dt.
+print $dt->getTimestamp();
 
 ?>
