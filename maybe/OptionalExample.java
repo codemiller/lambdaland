@@ -1,5 +1,6 @@
 import com.google.common.base.Optional;
 
+import java.lang.String;
 import java.util.Map;
 
 import static com.google.common.collect.Maps.newHashMap;
@@ -12,9 +13,10 @@ public class OptionalExample {
         Map<Integer, String> petEnclosures = newHashMap();
         petEnclosures.put(101, "Spot");
         petEnclosures.put(102, "Fluffy");
-        petEnclosures.put(104, null);
-        petEnclosures.put(106, "Felix");
-        petEnclosures.put(107, "Ra");
+        petEnclosures.put(103, null);
+        petEnclosures.put(104, "Felix");
+        petEnclosures.put(105, null);
+        petEnclosures.put(106, "Ra");
 
         if (args.length != 1) {
             System.err.println("Error: supply number of enclosure to check, ie: 101");
@@ -22,26 +24,28 @@ public class OptionalExample {
         }
         int enclosure = Integer.parseInt(args[0]);
 
-        String pet = petEnclosures.get(enclosure);
-        // Null here could mean the enclosure is empty or the animal inside has no name
-        printStatus(enclosure, pet);
+        // Null here could mean there is no enclosure with that number or it doesn't contain a pet
+        String petName = petEnclosures.get(enclosure);
+        printStatus(enclosure, petName);
 
-        pet = checkEnclosure(petEnclosures, enclosure).isPresent()
-                ? checkEnclosure(petEnclosures, enclosure).get()
-                : "nothing";
-        // This time there is no ambiguity between the null cases
-        printStatus(enclosure, pet);
+        // This time there is no ambiguity
+        Optional<String> enclosureContents = checkEnclosure(petEnclosures, enclosure);
+        if (! enclosureContents.isPresent()) {
+            System.err.println("Error: invalid enclosure number");
+            System.exit(1);
+        }
+        petName = enclosureContents.get();
+        printStatus(enclosure, petName);
 
-        // A nullable value can be turned into an Optional
-        Optional<String> popularityLevel = Optional.fromNullable(ratePetNamePopularity(pet));
+        // A nullable value can be turned into an Optional with Optional.fromNullable
+        Optional<String> popularityLevel = Optional.fromNullable(ratePetNamePopularity(petName));
         if ((!pet.equals("nothing"))
-                && (!pet.equals("unnamed"))
                 && popularityLevel.isPresent()) {
             System.out.println("Pet name's popularity is " + popularityLevel.get() + ".");
         }
     }
 
-    // Returning an Optional forces us to think about cases when a value should be represented as present,
+    // Returning an Optional forces the coder to think about cases when a value should be represented as present,
     // and when it should be represented as absent, and encourages the users of this method to consider what
     // to do when a value is absent
     private static Optional<String> checkEnclosure(Map<Integer, String> petEnclosures, int enclosure) {
@@ -50,7 +54,7 @@ public class OptionalExample {
         }
         String value = petEnclosures.get(enclosure);
         if (value == null) {
-            return Optional.of("unnamed");
+            return Optional.of("nothing");
         }
         return Optional.of(value);
     }
@@ -59,9 +63,9 @@ public class OptionalExample {
         System.out.println("Enclosure " + enclosure + " contains " + pet + ".");
     }
 
-    // Returning an Optional here instead of just String would make it clear that
-    // a value may not be returned in all cases and the coder should check for this
-    private static String ratePetNamePopularity(String petName) {
+    // Returning an Optional here instead of String would make it clear that a value may not be returned in
+    // all cases and the coder should check for this
+    public static String ratePetNamePopularity(String petName) {
         if (petName.length() < 3) {
             return null;
         }
