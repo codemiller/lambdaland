@@ -45,46 +45,32 @@ public final class RestfulAnimalCallsRefactored {
     }
 
     public static void saveCat(AnimalCallback<Cat> callback, Cat cat) {
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).updateCat(cat);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).updateCat(cat));
     }
 
     public static void saveDog(AnimalCallback<Dog> callback, Dog dog) {
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).updateDog(dog, Common.BARK);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).updateDog(dog, Common.BARK));
     }
 
     public static void getElephant(AnimalCallback<Elephant> callback, int id) {
         String expand = "{\"branches\":[{\"trunk\":{\"type\": \"" + Common.TRUNK_TYPE + "\"}}]}";
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).getElephant(id, expand);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).getElephant(id, expand));
     }
 
     public static void saveElephant(AnimalCallback<Elephant> callback, Elephant elephant) {
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).updateElephant(elephant, Common.TRUNK_SIZE);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).updateElephant(elephant, Common.TRUNK_SIZE));
     }
 
     public static void saveGiraffe(AnimalCallback<Giraffe> callback, Giraffe giraffe) {
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).updateGiraffe(giraffe);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).updateGiraffe(giraffe));
     }
 
     public static void getMonkey(AnimalCallback<Monkey> callback, int id) {
         String expand = "{\"branches\":[" + Common.MONKEY_EXPANSION + "]}";
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).getMonkey(id, expand);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).getMonkey(id, expand));
     }
 
     public static void getCattle(AnimalCallback<Cow> callback) {
-        doRestCall(callback, () -> {
-            Common.createRestClient(callback).getCattle(Common.CATTLE_BRAND);
-        });
+        doRestCall(callback, () -> Common.createRestClient(callback).getCattle(Common.CATTLE_BRAND));
     }
 }
