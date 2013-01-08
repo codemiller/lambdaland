@@ -8,6 +8,11 @@ import java.util.Map;
 import static com.example.Example.readPositiveIntParam;
 import static junit.framework.Assert.assertEquals;
 
+/*
+ * Option monad example in Java 8 from http://java.dzone.com/articles/no-more-excuses-use-null
+ *
+ * @author Mario Fusco
+ */
 public class ExampleTest {
 
     @Test

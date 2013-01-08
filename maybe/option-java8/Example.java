@@ -4,6 +4,11 @@ import java.util.Map;
 
 import static com.example.Option.asOption;
 
+/*
+ * Option monad example in Java 8 from http://java.dzone.com/articles/no-more-excuses-use-null
+ *
+ * @author Mario Fusco
+ */
 public class Example {
 
     public static int readPositiveIntParamWithoutOption(Map<String, String> params, String name) {
