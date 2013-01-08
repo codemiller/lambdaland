@@ -1,3 +1,7 @@
+package com.example;
+
+import java.util.functions.Predicate;
+
 /*
  * Option monad example in Java 8 from http://java.dzone.com/articles/no-more-excuses-use-null
  *
@@ -24,7 +28,7 @@ public class Some<A> extends Option<A> {
     @Override
     public Option<A> filter(Predicate<? super A> predicate) {
         if (predicate.test(value)) return this;
-        else return None.NONE;
+        else return NONE;
     }
 
     @Override

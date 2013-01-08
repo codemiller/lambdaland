@@ -1,3 +1,7 @@
+package com.example;
+
+import java.util.functions.Predicate;
+
 /*
  * Option monad example in Java 8 from http://java.dzone.com/articles/no-more-excuses-use-null
  *
@@ -28,4 +32,3 @@ public class None<A> extends Option<A> {
         return def;
     }
 }
-
