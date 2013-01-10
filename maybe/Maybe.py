@@ -1,5 +1,5 @@
 # Example by Fraser Tweedale: http://www.gitorious.org/frasertweedale/talks
-# Using a Maybe monad to make failure explicit when dividing by zero
+# Using a Maybe monad for division, where there may be a failure due to division by zero
 
 class Maybe(object):
     @classmethod
