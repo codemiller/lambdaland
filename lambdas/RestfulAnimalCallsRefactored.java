@@ -1,14 +1,5 @@
 package com.example.animal;
 
-import org.jboss.errai.enterprise.client.jaxrs.api.RestClient;
-import com.example.animal.Common;
-import com.example.animal.Cat;
-import com.example.animal.Dog;
-import com.example.animal.Elephant;
-import com.example.animal.Giraffe;
-import com.example.animal.Cow;
-import com.example.animal.Monkey;
-
 /**
  * Refactored example based on real-world code from project.
  * Original class had 26 methods like the below for invoking REST calls.
