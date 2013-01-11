@@ -49,8 +49,16 @@ public class MapFilterTest {
                 )
         );
 
-
-        String [] expected = { "Homo antecessor", "Homo erectus", "Homo ergaster", "Homo floresiensis", "Homo georgicus", "Homo habilis", "Homo heidelbergensis", "Homo neanderthalensis", "Homo sapiens sapiens" };
+        String [] expected = {
+                "Homo antecessor",
+                "Homo erectus",
+                "Homo ergaster",
+                "Homo floresiensis",
+                "Homo georgicus",
+                "Homo habilis",
+                "Homo heidelbergensis",
+                "Homo neanderthalensis",
+                "Homo sapiens sapiens" };
         assertArrayEquals(expected, sortedFiltered.toArray());
 
     }
