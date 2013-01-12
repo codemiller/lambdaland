@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Making Code More Functional: Lambda Land in Layperson's Language</title>
     <meta charset='utf-8'>
@@ -177,6 +177,116 @@
                 </aside>
             </section>
             <section>
+                <ul>
+                    <li>A <span class="blue">lambda</span> expression is an anonymous function</li>
+                    <li class="fragment"><a href="http://en.wikipedia.org/wiki/First-class_function#Language_support" target="_blank">Supporting languages</a> include: C, C# 2, C++ 11, JavaScript, PHP 5.3, Perl, Ruby</li>
+                    <li class="fragment">A <span class="blue">closure</span> is a function with a referencing environment; it 'closes over' its surrounding scope</li>
+                    <li class="fragment"><a href="http://en.wikipedia.org/wiki/First-class_function#Language_support" target="_blank">Supporting languages</a> include: C# 2, Java 8, JavaScript, Python, PHP 5.3, Perl, Ruby</li>
+                    <li class="fragment">Even in Java 7 and earlier, <a href="http://en.wikipedia.org/wiki/Function_object" target="_blank">function objects</a> can be used to simulate <span class="blue">first-class functions</span></li>
+                </ul>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Restful Animal Calls</h3>
+                <pre><code>
+public static void saveCat(final AnimalCallback<Cat> callback, </br>&nbsp;&nbsp;final Cat cat) {
+    try {
+        callback.begin();
+        createRestClient(callback).updateCat(cat);
+    } catch (final Exception ex) {
+        callback.generalException(ex);
+    }
+}
+
+public static void saveDog(final AnimalCallback<Dog> callback, </br>&nbsp;&nbsp;final Dog dog) {
+    try {
+        callback.begin();
+        createRestClient(callback).updateDog(dog, Common.BARK);
+    } catch (final Exception ex) {
+        callback.generalException(ex);
+    }
+}
+
+public static void getElephant(final AnimalCallback<Elephant> </br>&nbsp;&nbsp;callback, final int id) {
+    final String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
+    try {
+        callback.begin();
+        createRestClient(callback).getElephant(id, exp);
+    } catch (final Exception ex) {
+        callback.generalException(ex);
+    }
+}
+                </code></pre>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Restful Animal Calls Refactored</h3>
+                <pre><code>
+public interface RestCaller {
+    public void call() throws Exception;
+}
+
+private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;&nbsp;final RestCaller restCaller) {
+    try {
+        callback.begin();
+        restCaller.call();
+    } catch (final Exception e) {
+        callback.generalException(e);
+    }
+}
+
+public static void saveCat(final AnimalCallback<Cat> callback, final </br>&nbsp;&nbsp;Cat cat) {
+    doRestCall(callback, new RestCaller() {
+        @Override
+        public void call() throws Exception {
+            createRestClient(callback).updateCat(cat);
+        }
+    });
+}
+
+public static void saveDog(final AnimalCallback<Dog> callback, final </br>&nbsp;&nbsp;Dog dog) {
+    doRestCall(callback, new RestCaller() {
+        @Override
+        public void call() throws Exception {
+            createRestClient(callback).updateDog(dog, BARK);
+        }
+    });
+}
+                </code></pre>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Restful Animal Calls In Java 8</h3>
+                <pre><code>
+public interface RestCaller {
+    public void call() throws Exception;
+}
+
+private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;&nbsp;final RestCaller restCaller) {
+    try {
+        callback.begin();
+        restCaller.call();
+    } catch (final Exception e) {
+        callback.generalException(e);
+    }
+}
+
+public static void saveCat(AnimalCallback<Cat> callback, </br>&nbsp;&nbsp;Cat cat) {
+    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateCat(cat));
+}
+
+public static void saveDog(AnimalCallback<Dog> callback, </br>&nbsp;&nbsp;Dog dog) {
+    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateDog(dog, Common.BARK));
+}
+
+public static void getElephant(AnimalCallback<Elephant> callback, int id) {
+    String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
+    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.getElephant(id, exp));
+}
+                </code></pre>
                 <aside class="notes">
                 </aside>
             </section>
@@ -260,6 +370,7 @@
             <section>
                 <h3>Presentations and Code</h3>
                 <ul>
+                    <li><a href="https://github.com/codemiller/lambdaland" target="_blank">Making Code More Functional: Katie Miller and Steve Dalton</a></li>
                     <li><a href="https://gitorious.org/frasertweedale/talks" target="_blank">Functional Python: Fraser Tweedale</a></li>
                     <li><a href="http://www.slideshare.net/Errorific/functional-perl" target="_blank">Functional Perl: Chris McKay</a></li>
                     <li><a href="http://wfpm.withouttheloop.com/#/" target="_blank">Why Functional Programming Matters Presentation: Liam McLennan</a></li>
