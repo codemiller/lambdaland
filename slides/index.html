@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Making Code More Functional: Lambda Land in Layperson's Language</title>
     <meta charset='utf-8'>
@@ -107,7 +107,7 @@
                         <strong>Python</strong> (lambda, filter, map), <strong>PHP</strong> (first-class functions),
                         <strong>C#</strong> (first-class functions)
                     </li>
-                    <li class="fragment">Rising FP language <a
+                    <li class="fragment">Increase in FP language <a
                             href="http://radar.oreilly.com/2012/04/computer-book-market-2011-part4.html"
                             target="_blank">book sales</a></li>
                     <li class="fragment"><strong>Erlang</strong> used at Yahoo!, Facebook, GitHub, Amazon;
@@ -190,7 +190,7 @@
             <section>
                 <h3>Restful Animal Calls</h3>
                 <pre><code>
-public static void saveCat(final AnimalCallback<Cat> callback, </br>&nbsp;&nbsp;final Cat cat) {
+public static void saveCat(final AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;final Cat cat) {
     try {
         callback.begin();
         createRestClient(callback).updateCat(cat);
@@ -199,16 +199,16 @@ public static void saveCat(final AnimalCallback<Cat> callback, </br>&nbsp;&nbsp;
     }
 }
 
-public static void saveDog(final AnimalCallback<Dog> callback, </br>&nbsp;&nbsp;final Dog dog) {
+public static void saveDog(final AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;final Dog dog) {
     try {
         callback.begin();
-        createRestClient(callback).updateDog(dog, Common.BARK);
+        createRestClient(callback).updateDog(dog, BARK);
     } catch (final Exception ex) {
         callback.generalException(ex);
     }
 }
 
-public static void getElephant(final AnimalCallback<Elephant> </br>&nbsp;&nbsp;callback, final int id) {
+public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&nbsp;callback, final int id) {
     final String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
     try {
         callback.begin();
@@ -228,7 +228,7 @@ public interface RestCaller {
     public void call() throws Exception;
 }
 
-private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;&nbsp;final RestCaller restCaller) {
+private static &lt;T&gt; void doRestCall(final AnimalCallback&lt;T&gt; </br>&nbsp;&nbsp;callback, final RestCaller restCaller) {
     try {
         callback.begin();
         restCaller.call();
@@ -237,7 +237,7 @@ private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;
     }
 }
 
-public static void saveCat(final AnimalCallback<Cat> callback, final </br>&nbsp;&nbsp;Cat cat) {
+public static void saveCat(final AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;final Cat cat) {
     doRestCall(callback, new RestCaller() {
         @Override
         public void call() throws Exception {
@@ -246,7 +246,7 @@ public static void saveCat(final AnimalCallback<Cat> callback, final </br>&nbsp;
     });
 }
 
-public static void saveDog(final AnimalCallback<Dog> callback, final </br>&nbsp;&nbsp;Dog dog) {
+public static void saveDog(final AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;final Dog dog) {
     doRestCall(callback, new RestCaller() {
         @Override
         public void call() throws Exception {
@@ -259,13 +259,13 @@ public static void saveDog(final AnimalCallback<Dog> callback, final </br>&nbsp;
                 </aside>
             </section>
             <section>
-                <h3>Restful Animal Calls In Java 8</h3>
+                <h3>Restful Animal Calls In Java&nbsp;8</h3>
                 <pre><code>
 public interface RestCaller {
     public void call() throws Exception;
 }
 
-private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;&nbsp;final RestCaller restCaller) {
+private static &lt;T&gt; void doRestCall(final AnimalCallback&lt;T&gt; </br>&nbsp;&nbsp;callback, final RestCaller restCaller) {
     try {
         callback.begin();
         restCaller.call();
@@ -274,17 +274,17 @@ private static <T> void doRestCall(final AnimalCallback<T> callback, </br>&nbsp;
     }
 }
 
-public static void saveCat(AnimalCallback<Cat> callback, </br>&nbsp;&nbsp;Cat cat) {
-    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateCat(cat));
+public static void saveCat(AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;Cat cat) {
+    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateCat(cat));
 }
 
-public static void saveDog(AnimalCallback<Dog> callback, </br>&nbsp;&nbsp;Dog dog) {
-    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateDog(dog, Common.BARK));
+public static void saveDog(AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;Dog dog) {
+    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateDog(dog, BARK));
 }
 
-public static void getElephant(AnimalCallback<Elephant> callback, int id) {
+public static void getElephant(AnimalCallback&lt;Elephant&gt; callback, int id) {
     String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
-    doRestCall(callback, () -> Common.createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.getElephant(id, exp));
+    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.getElephant(id, exp));
 }
                 </code></pre>
                 <aside class="notes">
@@ -313,6 +313,122 @@ public static void getElephant(AnimalCallback<Elephant> callback, int id) {
                 <img src="images/maybe_sheep.jpg"/>
             </section>
             <section>
+                <img src="images/lyah_yesno.png"/>
+                <li>An option or <span class="blue">maybe type</span> makes the possible absence of a meaningful value explicit</li>
+                <li class="fragment">Often found in languages used for FP, such as Haskell (Maybe), Scala (Option) and F# (Option)</li>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <div>
+                    <blockquote>I call it my billion-dollar mistake.</blockquote>
+                    — QuickSort inventor Sir Tony Hoare on his invention of the null&nbsp;reference
+                </div>
+                <div class="fragment">
+                    <blockquote>It's not always obvious that null means 'no value for this parameter' — heck, as a return value, sometimes it means 'error', or even 'success' (!!), or simply 'the correct answer is nothing'.</blockquote>
+                    — Louis Wasserman of the Google Guava&nbsp;team
+                </div>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Optional Example in Java</h3>
+                <pre><code>
+public static void main(String[] args) {
+    Map&lt;Integer, String&gt; petEnclosures = newHashMap();
+    petEnclosures.put(101, "Spot");
+    petEnclosures.put(102, "Fluffy");
+    petEnclosures.put(103, null);
+    petEnclosures.put(104, "Felix");
+
+    int enclosure = -1;
+    try {
+        enclosure = Integer.parseInt(args[0]);
+    } catch (ArrayIndexOutOfBoundsException | </br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatException e) {
+        System.err.println("Error: supply number of enclosure to"</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "check, ie: 101");
+        System.exit(1);
+    }
+
+    String petName = petEnclosures.get(enclosure);
+    System.out.println("Enclosure " + enclosure + " contains "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ petName + ".");
+
+    Optional&lt;Optional&lt;String&gt;&gt; enclosureValue =</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doLookup(petEnclosures, enclosure);
+    if (! enclosureValue.isPresent()) {
+        System.err.println("Error: invalid enclosure number");
+        System.exit(1);
+    }
+    petName = enclosureValue.get().or("nothing");
+    System.out.println("Enclosure " + enclosure + " contains "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ petName + ".");
+}
+
+private static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; doLookup(Map&lt;K, V&gt; </br>&nbsp;&nbsp;map, K key) {
+    if (! map.containsKey(key)) {
+        return Optional.absent();
+    }
+    return Optional.of(Optional.fromNullable(map.get(key)));
+}
+                </code></pre>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Monadic Option Example Usage in Java 8</h3>
+                <pre><code>
+// Author: Mario Fusco
+public static int readPositiveIntParamWithoutOption(Map<String, String> params, String name) {
+    String value = params.get(name);
+    if (value == null) return 0;
+    int i = 0;
+    try {
+        i = Integer.parseInt(value);
+    } catch (NumberFormatException nfe) { }
+    if (i < 0) return 0;
+    return i;
+}
+
+public static int readPositiveIntParam(Map<String, String> params, String name) {
+    return asOption(params.get(name))
+            .flatMap(FunctionUtils::stringToInt)
+            .filter(i -> i > 0)
+            .getOrElse(0);
+}
+                </code></pre>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Maybe Example in Python</h3>
+                <pre><code>
+// Author: Fraser Tweedale
+class Maybe(object):
+    @classmethod
+    def ret(cls, x): return Just(x)
+
+class Nothing(Maybe):
+    def __init__(self): pass
+    def __rshift__(self, f): return self
+    def __repr__(self): return 'Nothing()'
+
+class Just(Maybe):
+    def __init__(self, x): self._x = x
+    def __rshift__(self, f):
+        return f(self._x)
+    def __repr__(self): return 'Just({!r})'.format(self._x)
+
+def mdiv(n, d):
+    return Nothing() if not d else Just(n / d)
+
+print Just(10) >> (lambda x: Just(2) >> (lambda y: mdiv(x, y)))
+print Just(10) >> (lambda x: Just(0) >> (lambda y: mdiv(x, y)))
+
+def divby(d):
+    return lambda n: mdiv(n, d)
+
+print Just(10) >> divby(2)
+print Just(10) >> divby(0)
+print Just(10) >> divby(0) >> divby(2)
+print Just(16) >> divby(2) >> divby(2)
+                </code></pre>
                 <aside class="notes">
                 </aside>
             </section>
@@ -355,6 +471,8 @@ public static void getElephant(AnimalCallback<Elephant> callback, int id) {
                     <li><a href="http://www.cs.kent.ac.uk/people/staff/dat/miranda/whyfp90.pdf" target="_blank">Why Functional Programming Matters: John Hughes</a></li>
                     <li><a href="http://www.haskell.org/haskellwiki/Functional_programming" target="_blank">Haskell Wiki on Functional Programming</a></li>
                     <li><a href="http://learnyouahaskell.com" target="_blank">Learn You A Haskell</a></li>
+                    <li><a href="http://logicaltypes.blogspot.com.au/2011/09/monads-in-java.html" target="_blank">Monads in Java</a></li>
+                    <li><a href="http://james-iry.blogspot.jp/2007/09/monads-are-elephants-part-1.html" target="_blank">Monads Are Elephants</a></li>
                 </ul>
             </section>
             <section>
