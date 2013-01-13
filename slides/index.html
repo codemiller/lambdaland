@@ -31,9 +31,9 @@
 <div class="reveal">
     <div class="slides">
         <section>
-            <h1>Making Code More Functional</h1>
+            <h2>Making Code More Functional</h2>
 
-            <h2>Lambda Land in Layperson's Language</h2>
+            <h3>Lambda Land in Layperson's Language</h3>
 
             <p>
                 <img src="images/lambda-blue.svg" width="30%"/>
@@ -141,15 +141,13 @@
             </section>
             <section>
                 <div>
-                    <blockquote>Think functionally, code like a hacker</blockquote>
+                    <blockquote>Think functionally; code like a hacker.</blockquote>
                     — Erik Meijer, YOW! 2012
                 </div>
                 <div class="fragment">
                     <blockquote>Learning Haskell will make you a better Java programmer ... it will rewire your brain in
-                        a
-                        way that will make you write better Java programs
-                    </blockquote>
-                    — Simon Peyton Jones, YOW! 2011</p>
+                        a way that will make you write better Java programs.</blockquote>
+                    — Simon Peyton Jones, YOW! 2011
                 </div>
                 <aside class="notes">
                 </aside>
@@ -541,7 +539,7 @@ private static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; doLookup(Map&lt;K,
                 <h3>Monadic Option Example Usage in Java 8</h3>
                 <pre><code>
 // Author: Mario Fusco
-public static int readPositiveIntParamWithoutOption(Map<String, String> params, String name) {
+public static int readPositiveIntParamWithoutOption(Map&lt;String, </br>&nbsp;&nbsp;String&gt; params, String name) {
     String value = params.get(name);
     if (value == null) return 0;
     int i = 0;
@@ -552,7 +550,7 @@ public static int readPositiveIntParamWithoutOption(Map<String, String> params, 
     return i;
 }
 
-public static int readPositiveIntParam(Map<String, String> params, String name) {
+public static int readPositiveIntParam(Map&lt;String, String&gt; </br>&nbsp;&nbsp;params, String name) {
     return asOption(params.get(name))
             .flatMap(FunctionUtils::stringToInt)
             .filter(i -> i > 0)
@@ -638,7 +636,7 @@ print Just(16) >> divby(2) >> divby(2)
                     <li><a href="http://www.haskell.org/haskellwiki/Functional_programming" target="_blank">Haskell Wiki on Functional Programming</a></li>
                     <li><a href="http://learnyouahaskell.com" target="_blank">Learn You A Haskell</a></li>
                     <li><a href="http://logicaltypes.blogspot.com.au/2011/09/monads-in-java.html" target="_blank">Monads in Java</a></li>
-                    <li><a href="http://james-iry.blogspot.jp/2007/09/monads-are-elephants-part-1.html" target="_blank">Monads Are Elephants</a></li>
+                    <li><a href="http://james-iry.blogspot.jp/2007/09/monads-are-elephants-part-1.html" target="_blank">Monads are Elephants</a></li>
                 </ul>
             </section>
             <section>
