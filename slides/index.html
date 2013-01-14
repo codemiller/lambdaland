@@ -515,14 +515,7 @@ public static void main(String[] args) {
     petEnclosures.put(103, null);
     petEnclosures.put(104, "Felix");
 
-    int enclosure = -1;
-    try {
-        enclosure = Integer.parseInt(args[0]);
-    } catch (ArrayIndexOutOfBoundsException | </br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatException e) {
-        System.err.println("Error: supply number of enclosure to"</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "check, ie: 101");
-        System.exit(1);
-    }
-
+    int enclosure = getEnclosureArg(args);
     String petName = petEnclosures.get(enclosure);
     System.out.println("Enclosure " + enclosure + " contains "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ petName + ".");
 
