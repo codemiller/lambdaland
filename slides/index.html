@@ -346,7 +346,7 @@ print $dt->getTimestamp();</code></pre>
                     <li class="fragment"><a href="http://en.wikipedia.org/wiki/First-class_function#Language_support" target="_blank">Supporting languages</a> include: C, C# 2, C++ 11, JavaScript, PHP 5.3, Perl, Ruby</li>
                     <li class="fragment">A <span class="blue">closure</span> is a function with a referencing environment; it 'closes over' its surrounding scope</li>
                     <li class="fragment"><a href="http://en.wikipedia.org/wiki/First-class_function#Language_support" target="_blank">Supporting languages</a> include: C# 2, Java 8, JavaScript, Python, PHP 5.3, Perl, Ruby</li>
-                    <li class="fragment">Even in Java 7 and earlier, <a href="http://en.wikipedia.org/wiki/Function_object" target="_blank">function objects</a> can be used to simulate <span class="blue">first-class functions</span></li>
+                    <li class="fragment">In Java 7 and earlier, <a href="http://en.wikipedia.org/wiki/Function_object" target="_blank">function objects</a> can be used to simulate <span class="blue">first-class functions</span></li>
                 </ul>
                 <aside class="notes">
                 </aside>
@@ -415,6 +415,16 @@ public static void saveDog(final AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;
         @Override
         public void call() throws Exception {
             createRestClient(callback).updateDog(dog, BARK);
+        }
+    });
+}
+
+public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&nbsp;callback, final int id) {
+    final String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
+    doRestCall(callback, new RestCaller() {
+        @Override
+        public void call() throws Exception {
+            createRestClient(callback).getElephant(id, expand);
         }
     });
 }
@@ -612,7 +622,7 @@ print Just(16) >> divby(2) >> divby(2)
                     <li class="fragment">Join an FP <a href="http://www.haskell.org/haskellwiki/User_groups" target="_blank">user group</a> or <a href="http://functional-programming.meetup.com" target="_blank">meetup</a></li>
                     <li class="fragment">Learn a language like <a href="http://haskell.org" target="_blank">Haskell</a>, <a href="http://scala-lang.org" target="_blank">Scala</a>, <a href="http://erlang.org" target="_blank">Erlang</a> or <a href="http://clojure.org" target="_blank">Clojure</a></li>
                     <li class="fragment">Form an <a href="https://github.com/learnhaskell-brisbane" target="_blank">FP study group</a></li>
-                    <li class="fragment">Attend <a href="http://lambdajam.com/" target="_blank">LambdaJam 2013</a></li>
+                    <li class="fragment">Attend <a href="http://lambdajam.com/" target="_blank">Lambda Jam 2013</a></li>
                 </ul>
                 <aside class="notes">
                 </aside>
