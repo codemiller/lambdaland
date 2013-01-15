@@ -354,31 +354,31 @@ print $dt->getTimestamp();</code></pre>
             <section>
                 <h3>Restful Animal Calls</h3>
                 <pre><code>
-public static void saveCat(final AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;final Cat cat) {
+void saveCat(final AnimalCallback&lt;Cat&gt; cb, final Cat cat) {
     try {
-        callback.begin();
-        createRestClient(callback).updateCat(cat);
+        cb.begin();
+        createRestClient(cb).updateCat(cat);
     } catch (final Exception ex) {
-        callback.generalException(ex);
+        cb.generalException(ex);
     }
 }
 
-public static void saveDog(final AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;final Dog dog) {
+void getCow(final AnimalCallback&lt;Cow&gt; cb, final int id) {
+    final String exp = "{\"tail\":{\"type\": \"" + TAIL + "\"}}";
     try {
-        callback.begin();
-        createRestClient(callback).updateDog(dog, BARK);
+        cb.begin();
+        createRestClient(cb).getCow(id, exp);
     } catch (final Exception ex) {
-        callback.generalException(ex);
+        cb.generalException(ex);
     }
 }
 
-public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&nbsp;callback, final int id) {
-    final String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
+void saveDog(final AnimalCallback&lt;Dog&gt; cb, final Dog dog) {
     try {
-        callback.begin();
-        createRestClient(callback).getElephant(id, exp);
+        cb.begin();
+        createRestClient(cb).updateDog(dog, BARK);
     } catch (final Exception ex) {
-        callback.generalException(ex);
+        cb.generalException(ex);
     }
 }
                 </code></pre>
@@ -388,43 +388,43 @@ public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&
             <section>
                 <h3>Restful Animal Calls Refactored</h3>
                 <pre><code>
-public interface RestCaller {
+interface Caller {
     public void call() throws Exception;
 }
 
-private static &lt;T&gt; void doRestCall(final AnimalCallback&lt;T&gt; </br>&nbsp;&nbsp;callback, final RestCaller restCaller) {
+&lt;T&gt; void doCall(AnimalCallback&lt;T&gt; cb, Caller restCaller) {
     try {
-        callback.begin();
+        cb.begin();
         restCaller.call();
     } catch (final Exception e) {
-        callback.generalException(e);
+        cb.generalException(e);
     }
 }
 
-public static void saveCat(final AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;final Cat cat) {
-    doRestCall(callback, new RestCaller() {
+void saveCat(final AnimalCallback&lt;Cat&gt; cb, final Cat cat) {
+    doCall(cb, new Caller() {
         @Override
         public void call() throws Exception {
-            createRestClient(callback).updateCat(cat);
+            createRestClient(cb).updateCat(cat);
         }
     });
 }
 
-public static void saveDog(final AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;final Dog dog) {
-    doRestCall(callback, new RestCaller() {
+void getCow(final AnimalCallback&lt;Cow&gt; cb, final int id) {
+    final String exp = "{\"tail\":{\"type\": \"" + TAIL + "\"}}";
+    doCall(cb, new Caller() {
         @Override
         public void call() throws Exception {
-            createRestClient(callback).updateDog(dog, BARK);
+            createRestClient(cb).getCow(id, expand);
         }
     });
 }
 
-public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&nbsp;callback, final int id) {
-    final String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
-    doRestCall(callback, new RestCaller() {
+void saveDog(final AnimalCallback&lt;Dog&gt; cb, final Dog dog) {
+    doCall(cb, new Caller() {
         @Override
         public void call() throws Exception {
-            createRestClient(callback).getElephant(id, expand);
+            createRestClient(cb).updateDog(dog, BARK);
         }
     });
 }
@@ -435,30 +435,30 @@ public static void getElephant(final AnimalCallback&lt;Elephant&gt; </br>&nbsp;&
             <section>
                 <h3>Restful Animal Calls In Java&nbsp;8</h3>
                 <pre><code>
-public interface RestCaller {
+interface Caller {
     public void call() throws Exception;
 }
 
-private static &lt;T&gt; void doRestCall(final AnimalCallback&lt;T&gt; </br>&nbsp;&nbsp;callback, final RestCaller restCaller) {
+&lt;T&gt; void doCall(AnimalCallback&lt;T&gt; cb, Caller restCaller) {
     try {
-        callback.begin();
+        cb.begin();
         restCaller.call();
     } catch (final Exception e) {
-        callback.generalException(e);
+        cb.generalException(e);
     }
 }
 
-public static void saveCat(AnimalCallback&lt;Cat&gt; callback, </br>&nbsp;&nbsp;Cat cat) {
-    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateCat(cat));
+void saveCat(AnimalCallback&lt;Cat&gt; cb, Cat cat) {
+    doCall(cb, () -> createRestClient(cb).updateCat(cat));
 }
 
-public static void saveDog(AnimalCallback&lt;Dog&gt; callback, </br>&nbsp;&nbsp;Dog dog) {
-    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.updateDog(dog, BARK));
+void getCow(AnimalCallback&lt;Cow&gt; cb, int id) {
+    String exp = "{\"tail\":{\"type\": \"" + TAIL + "\"}}";
+    doCall(cb, () -> createRestClient(cb).getCow(id, exp));
 }
 
-public static void getElephant(AnimalCallback&lt;Elephant&gt; callback, int id) {
-    String exp = "{\"branches\":[{\"trunk\":{\"type\": \""</br>&nbsp;&nbsp;&nbsp;&nbsp; + TRUNK_TYPE + "\"}}]}";
-    doRestCall(callback, () -> createRestClient(callback)</br>&nbsp;&nbsp;&nbsp;&nbsp;.getElephant(id, exp));
+void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
+    doCall(cb, () -> createRestClient(cb).updateDog(dog, BARK));
 }
                 </code></pre>
                 <aside class="notes">
@@ -481,16 +481,16 @@ public static void getElephant(AnimalCallback&lt;Elephant&gt; callback, int id) 
 
         <section>
             <section>
-                <h2>Maybe/Option Type</h2>
+                <h2>Maybe/Option Data Structure</h2>
                 <aside class="notes">
                 </aside>
-                <img src="images/maybe_sheep.jpg"/>
+                <img src="images/maybe_club.jpg"/>
             </section>
             <section>
                 <img src="images/lyah_yesno.png"/>
 		<ul>
                     <li>Often found in languages used for FP, such as Haskell (Maybe), Scala (Option) and F# (Option)</li>
-                    <li class="fragment">An option or <span class="blue">maybe type</span> makes the possible absence of a meaningful value explicit</li>
+                    <li class="fragment">An option or <span class="blue">maybe</span> data type makes the possible absence of a meaningful value explicit</li>
                 </ul>
 		<aside class="notes">
                 </aside>
@@ -519,18 +519,17 @@ public static void main(String[] args) {
 
     int enclosure = getEnclosureArg(args);
     String petName = petEnclosures.get(enclosure);
-    System.out.println("Enclosure " + enclosure + " contains "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ petName + ".");
+    System.out.println(enclosure + " contains " + petName);
 
-    Optional&lt;Optional&lt;String&gt;&gt; enclosureValue =</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doLookup(petEnclosures, enclosure);
+    Optional&lt;Optional&lt;String&gt;&gt; enclosureValue =</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup(petEnclosures, enclosure);
     if (! enclosureValue.isPresent()) {
-        System.err.println("Error: invalid enclosure number");
-        System.exit(1);
+        printErrorAndExit("Enclosure number invalid");
     }
     petName = enclosureValue.get().or("nothing");
-    System.out.println("Enclosure " + enclosure + " contains "</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ petName + ".");
+    System.out.println(enclosure + " contains " + petName);
 }
 
-private static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; doLookup(Map&lt;K, V&gt; </br>&nbsp;&nbsp;map, K key) {
+static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; lookup(Map&lt;K, V&gt; map, K key) {
     if (! map.containsKey(key)) {
         return Optional.absent();
     }
@@ -544,8 +543,8 @@ private static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; doLookup(Map&lt;K,
                 <h3>Monadic Option Example Usage in Java 8</h3>
                 <pre><code>
 // Author: Mario Fusco
-public static int readPositiveIntParamWithoutOption(Map&lt;String, </br>&nbsp;&nbsp;String&gt; params, String name) {
-    String value = params.get(name);
+int readPosInt(Map&lt;String, String&gt; map, String name) {
+    String value = map.get(name);
     if (value == null) return 0;
     int i = 0;
     try {
@@ -555,8 +554,8 @@ public static int readPositiveIntParamWithoutOption(Map&lt;String, </br>&nbsp;&n
     return i;
 }
 
-public static int readPositiveIntParam(Map&lt;String, String&gt; </br>&nbsp;&nbsp;params, String name) {
-    return asOption(params.get(name))
+int readPosIntWithOption(Map&lt;String, String&gt; map, String name) {
+    return asOption(map.get(name))
             .flatMap(FunctionUtils::stringToInt)
             .filter(i -> i > 0)
             .getOrElse(0);
@@ -568,7 +567,7 @@ public static int readPositiveIntParam(Map&lt;String, String&gt; </br>&nbsp;&nbs
             <section>
                 <h3>Maybe Example in Python</h3>
                 <pre><code>
-// Author: Fraser Tweedale
+# Author: Fraser Tweedale
 class Maybe(object):
     @classmethod
     def ret(cls, x): return Just(x)
@@ -587,16 +586,13 @@ class Just(Maybe):
 def mdiv(n, d):
     return Nothing() if not d else Just(n / d)
 
-print Just(10) >> (lambda x: Just(2) >> (lambda y: mdiv(x, y)))
-print Just(10) >> (lambda x: Just(0) >> (lambda y: mdiv(x, y)))
-
 def divby(d):
     return lambda n: mdiv(n, d)
 
-print Just(10) >> divby(2)
-print Just(10) >> divby(0)
-print Just(10) >> divby(0) >> divby(2)
-print Just(16) >> divby(2) >> divby(2)
+print Just(10) >> divby(2)             // Just(5)
+print Just(10) >> divby(0)             // Nothing()
+print Just(10) >> divby(0) >> divby(2) // Nothing()
+print Just(16) >> divby(2) >> divby(2) // Just(4)
                 </code></pre>
                 <aside class="notes">
                 </aside>
@@ -617,7 +613,7 @@ print Just(16) >> divby(2) >> divby(2)
                     <li class="fragment">Join an FP <a href="http://www.haskell.org/haskellwiki/User_groups" target="_blank">user group</a> or <a href="http://functional-programming.meetup.com" target="_blank">meetup</a></li>
                     <li class="fragment">Learn a language like <a href="http://haskell.org" target="_blank">Haskell</a>, <a href="http://scala-lang.org" target="_blank">Scala</a>, <a href="http://erlang.org" target="_blank">Erlang</a> or <a href="http://clojure.org" target="_blank">Clojure</a></li>
                     <li class="fragment">Form an <a href="https://github.com/learnhaskell-brisbane" target="_blank">FP study group</a></li>
-                    <li class="fragment">Attend <a href="http://lambdajam.com/" target="_blank">Lambda Jam 2013</a></li>
+                    <li class="fragment">Attend <a href="http://lambdajam.com/" target="_blank">Lambda Jam 2013 in Brisbane</a></li>
                 </ul>
                 <aside class="notes">
                 </aside>
@@ -679,6 +675,7 @@ print Just(16) >> divby(2) >> divby(2)
                     <li><a href="https://bitbucket.org/atlassian/fugue/overview" target="_blank">Java: Fugue</a></li>
                     <li><a href="http://code.google.com/p/funcito/" target="_blank">Java: Funcito</a></li>
                     <li><a href="http://functionaljava.org/" target="_blank">Java: Functional Java</a></li>
+                    <li><a href="http://github.com/mogeneration/functionalkit/" target="_blank">Objective-C: FunctionalKit</a></li>
                 </ul>
             </section>
             <section>
@@ -689,7 +686,7 @@ print Just(16) >> divby(2) >> divby(2)
                     <li><a href="http://www.flickr.com/photos/ezu/277341190/" target="_blank">Code Washing</a></li>
                     <li><a href="http://www.flickr.com/photos/freakgirl/3530777177/" target="_blank">Kittens</a></li>
                     <li><a href="http://www.flickr.com/photos/76526364@N06/7056591191/" target="_blank">Lamb</a></li>
-                    <li><a href="http://www.flickr.com/photos/amcunningham72/3178613994/" target="_blank">Sheep Sign</a></li>
+                    <li><a href="http://www.flickr.com/photos/mshades/64774561/" target="_blank">Maybe Club</a></li>
                     <li><a href="http://www.flickr.com/photos/thisisjoshbrown/5639414962/" target="_blank">Pug</a></li>
                     <li><a href=http://www.flickr.com/photos/leader_maximo/2974206217/" target="_blank">Tattoo</a> (original source unknown)</li>
                 </ul>
