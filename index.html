@@ -131,23 +131,18 @@
                     <li>Reasoning</li>
                     <li class="fragment">No <span class="blue">side-effects</span>: easy to parallelise and debug</li>
                     <li class="fragment"><span class="blue">Pure</span> functions -> compiler optimisations</li>
-                    <li class="fragment">Modular code; function composition; code reuse</li>
+                    <li class="fragment">Modular code; function composition (explain); code reuse</li> f g(x)
                     <li class="fragment">More succinct programs</li>
-                    <li class="fragment">Automated test generation</li>
-                    <li class="fragment">Changes the way you think about programming problems</li>
+                    <li class="fragment">Automated test generation - eg. QuickCheck, ScalaCheck</li>
                 </ul>
                 <aside class="notes">
                 </aside>
             </section>
             <section>
                 <div>
-                    <blockquote>Think functionally; code like a hacker.</blockquote>
-                    — Erik Meijer, YOW! 2012
-                </div>
-                <div class="fragment">
                     <blockquote>Learning Haskell will make you a better Java programmer ... it will rewire your brain in
                         a way that will make you write better Java programs.</blockquote>
-                    — Simon Peyton Jones, YOW! 2011
+                    — Simon Peyton Jones (Haskell Creator), YOW! 2011
                 </div>
                 <aside class="notes">
                 </aside>
@@ -395,11 +390,12 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
             </section>
             <section>
                 <ul>
-                    <li>Map & Filter are a <a href="http://en.wikipedia.org/wiki/Catamorphism">homomorphism</a>
+                    <li><span class="blue">Map & Filter</span> are a <a href="http://en.wikipedia.org/wiki/Catamorphism">homomorphism</a>
                     </li>
-                    <li class="fragment">Fold is a <a href="http://en.wikipedia.org/wiki/Catamorphism">catamorphism</a></li>
+                    <li class="fragment"><span class="blue">Fold</span> is a <a href="http://en.wikipedia.org/wiki/Catamorphism">catamorphism</a></li>
+                    <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax to <span class="blue">fold</span></li>
                     <li class="fragment">Alternative to loops; shorter and more elegant</li>
-                    <li class="fragment">Can be slower and wasteful in some languages. Use tail call optimization if you can
+                    <li class="fragment">Criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
                     </li>
                 </ul>
                 <aside class="notes">
@@ -576,6 +572,7 @@ print Just(16) >> divby(2) >> divby(2) // Just(4)
         <section>
             <h2>Questions?</h2>
             <img src="images/tough_pug.jpg"/>
+            <h3>These slides: <a href="http://lambdaland.codemiller.com">lambdaland.codemiller.com</a> </h3>
         </section>
 
         <section>
