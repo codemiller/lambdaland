@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Making Code More Functional: Lambda Land in Layperson's Language</title>
     <meta charset='utf-8'>
@@ -129,13 +130,22 @@
             <section>
                 <ul>
                     <li>Reasoning</li>
-                    <li class="fragment">No <span class="blue">side-effects</span>: easy to parallelise and debug</li>
-                    <li class="fragment"><span class="blue">Pure</span> functions -> compiler optimisations</li>
-                    <li class="fragment">Modular code; function composition (explain); code reuse</li> f g(x)
+                    <li class="fragment">Limits or eliminates <span class="blue">side-effects</span></li>
+                    <li class="fragment"><span class="blue">Pure</span> functions can produce compiler optimisations</li>
+                    <li class="fragment">Modular code; function composition; code reuse</li>
                     <li class="fragment">More succinct programs</li>
                     <li class="fragment">Automated test generation - eg. QuickCheck, ScalaCheck</li>
                 </ul>
                 <aside class="notes">
+                    <ul>
+                        <li>Improved ability to reason about program behaviour; referential transparency means you can use equational reasoning on your code</li>
+                        <li>Feels more like maths</li>
+                        <li>Easy to parallelise when there are no side effects</li>
+                        <li>Better support for structured programming. Approach leads to more modular code; can use function composition; encourages code reuse</li>
+                        <li>Programs often more succinct, which means improved programmer productivity and maintainability</li>
+                        <li>Using algebraic data types in a strongly typed language like Haskell can mean you spend time arguing with the compiler rather than the customer</li>
+                        <li>Laziness can allow coder to tackle different problems and improves modularity (see John Hughes' paper)</li>
+                    </ul>
                 </aside>
             </section>
             <section>
@@ -162,9 +172,16 @@
                     <li class='fragment'>Protects code from misuse</li>
                     <li class='fragment'>Unchanged parts of structures can be shared between old and new copies, so it's not so wasteful as you might think</li>
                     <li class='fragment'>Immutable data is thread-safe</li>
-                    <li class='fragment'>Encourages us not to throw away potentially useful code. Eg. Big Data and Twitter</li>
-                </ul>
+                    <li class='fragment'>Encourages us not to throw away potentially useful data</li>
+                    </ul>
                 <aside class="notes">
+                    <ul>
+                        <li>Making data immutable allows us to protect code from misuse</li>
+                        <li></li>
+                        <li>Using immutable data makes concurrency easier as thread-safe</li>
+                        <li>Embracing immutable data also encourages us not to discard data that may wind up being useful. Ie: as seen in the event sourcing model, a customer putting something in their online shopping cart and then taking it out again may not be reflected in the end state, but this information still tells us something very valuable</li>
+                        <li>This is also being embraced in the big data world; Twitter engineer Nathan Marz asserted in his YOW! 2012 talk that the relational database would be a footnote in history because of its mutability. He claims we only need the C and R out of CRUD.</li>
+                    </ul>
                 </aside>
             </section>
             <section>
@@ -182,6 +199,7 @@ billy = Dog('Billy')
 billy.name = 'Buster' # no can do!
                 </code></pre>
                 <aside class="notes">
+                    Immutable prerry easy in static languages, but we need to go through some extra runtime hoops in dynamic languages.
                 </aside>
             </section>
             <section>
@@ -383,22 +401,26 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
 
         <section>
             <section>
-                <h2>Recursion rather than iteration</h2>
+                <h2>Alternatives to loops</h2>
                 <img src="images/lyah_recursion.png" width="60%"/>
                 <aside class="notes">
                 </aside>
             </section>
             <section>
                 <ul>
-                    <li><span class="blue">Map & Filter</span> are a <a href="http://en.wikipedia.org/wiki/Catamorphism">homomorphism</a>
-                    </li>
-                    <li class="fragment"><span class="blue">Fold</span> is a <a href="http://en.wikipedia.org/wiki/Catamorphism">catamorphism</a></li>
+                    <li>Use <span class="blue">Recursion</span> and <span class="blue">Higher Order Functions</span>: shorter and more elegant</li>
+                    <li class="fragment"><span class="blue">Map</span> applies a function to every element in a list</li>
+                    <li class="fragment"><span class="blue">Filter</span> filters a list based on a <i>test</i> (predicate)</li>
+                    <li class="fragment"><span class="blue">Fold</span> takes a function and <i>folds</i> it in between the elements of a list</li>
                     <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax to <span class="blue">fold</span></li>
-                    <li class="fragment">Alternative to loops; shorter and more elegant</li>
-                    <li class="fragment">Criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
+                    <li class="fragment">Recursion Criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
                     </li>
                 </ul>
                 <aside class="notes">
+                    <ul>
+                        <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
+                        <li>Tail call:the last action in the function is the recursive call so the function can instantly return once it gets the value from the next call</li>
+                    </ul>
                 </aside>
             </section>
             <section>
@@ -410,22 +432,47 @@ my @mult = apply { $_ *= 2 } @list;</code></pre>
                 <pre class="fragment"><code>my @numbers = (8, 2, 5, 3, 1, 7);
 my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <div class="fragment">@big_numbers = 8 5 7</div>
+                <aside class="notes">
+                </aside>
             </section>
             <section>
-                <h3>Fold in perl</h3>
+                <h3>Fold Example</h3>
+                <pre><code>fold + 0 (3,5,2,1)</code></pre>
+                <img src='images/foldl.png'/>
+                <aside class="notes">
+                    Just before I show you a fold in perl, here is a generic example of a fold just so you know what we are talking about here.
+                </aside>
+            </section>
+            <section>
+                <h3>Fold in Perl</h3>
+                reduce block initval, list
                 <pre class="fragment"><code>reduce { $a < $b ? $a : $b } 1..10</code></pre>
-                <div class="fragment">1 (min)</div>
+                <div class="fragment">result: 1 (min)</div>
                 <pre class="fragment"><code>reduce { $a lt $b ? $a : $b } 'aa'..'zz'</code></pre>
-                <div class="fragment">aa (minstr)</div>
-                <pre class="fragment"><code>reduce { $a + $b } 1..10</code></pre>
-                <div class="fragment">55 (sum)</div>
+                <div class="fragment">result: aa (minstr)</div>
+                <pre class="fragment"><code>reduce { $a + $b } 0, 1..10</code></pre>
+                <div class="fragment">result: 55 (sum).</div>
                 <pre class="fragment"><code>reduce { $a . $b } 'a'..'z'</code></pre>
-                <div class="fragment">abcdefghijklmnopqrstuvwxyz (concat)</div>
+                <div class="fragment">result: abcdefghijklmnopqrstuvwxyz (concat)</div>
                 </code></pre>
                 <br/><p class="fragment">For more perl functions, take a look in List::MoreUtils (and read Higher Order Perl)</p>
+                <aside class="notes">
+
+                </aside>
             </section>
-            <aside class="notes">
-            </aside>
+            <section>
+                <h3>List comprehension in Python</h3>
+                Standard For Loop:
+                <pre><code>squares = []
+for x in range(10):
+    squares.append(x**2)</code></pre>
+                <div class="fragment">Using List Comprehension:
+                    <pre><code>squares = [x**2 for x in range(10)]</code></pre>
+                </div>
+                <div class="fragment">result: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</div>
+                <aside class="notes">
+                </aside>
+            </section>
         </section>
 
         <section>
