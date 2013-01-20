@@ -37,7 +37,7 @@
             <h3>Lambda Land in Layperson's Language</h3>
 
             <p>
-                <img src="images/lambda-blue.svg" width="30%"/>
+                <img src="images/lambda-blue.svg" width="30%" style="background: none; border: none; box-shadow: none"/>
             </p>
 
             <p>Katie Miller (<a href="http://www.twitter.com/codemiller" target="_blank">@codemiller</a>) &amp; Steve
@@ -58,12 +58,12 @@
         <section>
             <section>
                 <h3>What is this </br>Functional Programming </br>of which you speak?</h3>
-                <img src="images/lyah_caveman.png" width="60%"/>
+                <img src="images/lyah_caveman.png" width="60%" style="background: none; border: none; box-shadow: none"/>
                 <aside class="notes">
                 </aside>
             </section>
             <section>
-                <img src="images/lyah_fx.png"/>
+                <img src="images/lyah_fx.png" style="background: none; border: none; box-shadow: none"/>
                 <ul>
                     <li>"[I]ts fundamental operation is the application of functions to arguments." — John Hughes</li>
                     <li class="fragment"><span class="blue">Pure</span> functions have no <span class="blue">side-effects</span>
@@ -484,7 +484,7 @@ for x in range(10):
                 <img src="images/maybe_club.jpg"/>
             </section>
             <section>
-                <img src="images/lyah_yesno.png"/>
+                <img src="images/lyah_yesno.png" style="background: none; border: none; box-shadow: none"/>
 		<ul>
                     <li>Often found in languages used for FP, such as Haskell (Maybe), Scala (Option) and F# (Option)</li>
                     <li class="fragment">An option or <span class="blue">maybe</span> data type makes the possible absence of a meaningful value explicit</li>
@@ -505,7 +505,7 @@ for x in range(10):
                 </aside>
             </section>
             <section>
-                <h3>Optional Example in Java</h3>
+                <h3>Guava Optional Example in&nbsp;Java</h3>
                 <pre><code>
 public static void main(String[] args) {
     Map&lt;Integer, String&gt; petEnclosures = newHashMap();
@@ -516,21 +516,36 @@ public static void main(String[] args) {
 
     int enclosure = getEnclosureArg(args);
     String petName = petEnclosures.get(enclosure);
-    System.out.println(enclosure + " contains " + petName);
+    System.out.println("Enclosure contains " + petName);
+    // What does a null petName mean here?
+}
+                </code></pre>
+                <aside class="notes">
+                </aside>
+            </section>
+            <section>
+                <h3>Guava Optional Example in&nbsp;Java</h3>
+                <pre><code>
+static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; lookup(Map&lt;K, V&gt; map, K key) {
+    if (! map.containsKey(key)) {
+        return Optional.absent();
+    }
+    return Optional.of(Optional.fromNullable(map.get(key)));
+}
+
+public static void main(String[] args) {
+    Map&lt;Integer, String&gt; petEnclosures = newHashMap();
+    petEnclosures.put(101, "Spot");
+    petEnclosures.put(102, "Fluffy");
+    petEnclosures.put(103, null);
+    petEnclosures.put(104, "Felix");
 
     Optional&lt;Optional&lt;String&gt;&gt; enclosureValue =</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup(petEnclosures, enclosure);
     if (! enclosureValue.isPresent()) {
         printErrorAndExit("Enclosure number invalid");
     }
     petName = enclosureValue.get().or("nothing");
-    System.out.println(enclosure + " contains " + petName);
-}
-
-static &lt;K, V&gt; Optional&lt;Optional&lt;V&gt;&gt; lookup(Map&lt;K, V&gt; map, K key) {
-    if (! map.containsKey(key)) {
-        return Optional.absent();
-    }
-    return Optional.of(Optional.fromNullable(map.get(key)));
+    System.out.println("Enclosure contains " + petName);
 }
                 </code></pre>
                 <aside class="notes">
