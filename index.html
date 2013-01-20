@@ -129,22 +129,23 @@
             </section>
             <section>
                 <ul>
-                    <li>Reasoning</li>
+                    <li>Ability to reason about program behaviour</li>                                                                                       ought
                     <li class="fragment">Limits or eliminates <span class="blue">side-effects</span></li>
-                    <li class="fragment"><span class="blue">Pure</span> functions can produce compiler optimisations</li>
-                    <li class="fragment">Modular code; function composition; code reuse</li>
+                    <li class="fragment">Improved code reuse through modularity and function composition. eg.</li>
+                    <ul class="fragment">
+                        <li>myfunc = toUpper . trim</li>
+                        <li>myfunc("Steve      ") -> "STEVE"</li></ul>
                     <li class="fragment">More succinct programs</li>
                     <li class="fragment">Automated test generation - eg. QuickCheck, ScalaCheck</li>
                 </ul>
                 <aside class="notes">
                     <ul>
                         <li>Improved ability to reason about program behaviour; referential transparency means you can use equational reasoning on your code</li>
-                        <li>Feels more like maths</li>
-                        <li>Easy to parallelise when there are no side effects</li>
+                        <li> - Feels more like maths</li>
+                        <li>No side effects - means parallel programming much simper.</li>
                         <li>Better support for structured programming. Approach leads to more modular code; can use function composition; encourages code reuse</li>
-                        <li>Programs often more succinct, which means improved programmer productivity and maintainability</li>
-                        <li>Using algebraic data types in a strongly typed language like Haskell can mean you spend time arguing with the compiler rather than the customer</li>
-                        <li>Laziness can allow coder to tackle different problems and improves modularity (see John Hughes' paper)</li>
+                        <li>Programs often more succinct and modular</li>
+                        <li>Automated test generation</li>
                     </ul>
                 </aside>
             </section>
@@ -409,9 +410,9 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
             <section>
                 <ul>
                     <li>Use <span class="blue">Recursion</span> and <span class="blue">Higher-Order Functions</span>; shorter and more elegant</li>
-                    <li class="fragment"><span class="blue">Map</span> applies a function to every element in a list</li>
+                    <ul><li class="fragment"><span class="blue">Map</span> applies a function to every element in a list</li>
                     <li class="fragment"><span class="blue">Filter</span> filters a list based on a <i>test</i> (predicate)</li>
-                    <li class="fragment"><span class="blue">Fold</span> takes a function and <i>folds</i> it in between the elements of a list</li>
+                    <li class="fragment"><span class="blue">Fold</span> takes a function and <i>folds</i> it in between the elements of a list</li></ul>
                     <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax to <span class="blue">fold</span></li>
                     <li class="fragment">Recursion criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
                     </li>
