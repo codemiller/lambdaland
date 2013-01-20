@@ -408,18 +408,19 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
             </section>
             <section>
                 <ul>
-                    <li>Use <span class="blue">Recursion</span> and <span class="blue">Higher Order Functions</span>: shorter and more elegant</li>
+                    <li>Use <span class="blue">Recursion</span> and <span class="blue">Higher-Order Functions</span>; shorter and more elegant</li>
                     <li class="fragment"><span class="blue">Map</span> applies a function to every element in a list</li>
                     <li class="fragment"><span class="blue">Filter</span> filters a list based on a <i>test</i> (predicate)</li>
                     <li class="fragment"><span class="blue">Fold</span> takes a function and <i>folds</i> it in between the elements of a list</li>
                     <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax to <span class="blue">fold</span></li>
-                    <li class="fragment">Recursion Criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
+                    <li class="fragment">Recursion criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you can
                     </li>
                 </ul>
                 <aside class="notes">
                     <ul>
                         <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
-                        <li>Tail call:the last action in the function is the recursive call so the function can instantly return once it gets the value from the next call</li>
+                        <li>Tail call: the last instruction in the function is the call to another function (which will be the same function if recursive), so the function just needs to return the value from the next call. This means recursive calls can be done in constant stack space.</li>
+                        <li>Map, filter and fold can be applied to other data structures too such as trees</li>
                     </ul>
                 </aside>
             </section>
@@ -455,7 +456,7 @@ my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <pre class="fragment"><code>reduce { $a . $b } 'a'..'z'</code></pre>
                 <div class="fragment">result: abcdefghijklmnopqrstuvwxyz (concat)</div>
                 </code></pre>
-                <br/><p class="fragment">For more perl functions, take a look in List::MoreUtils (and read Higher Order Perl)</p>
+                <br/><p class="fragment">For more Perl functions, take a look in List::MoreUtils (and read Higher Order Perl)</p>
                 <aside class="notes">
 
                 </aside>
