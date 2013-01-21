@@ -428,7 +428,7 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
             <section>
                 <h3>Map/Filter in perl</h3>
                 <pre><code>my @list = (1 .. 4);
-my @mult = apply { $_ *= 2 } @list;</code></pre>
+my @mult = map { $_ * 2 } @list;</code></pre>
                 <div class="fragment">@list = 1 2 3 4</div>
                 <div class="fragment">@mult = 2 4 6 8</div>
                 <pre class="fragment"><code>my @numbers = (8, 2, 5, 3, 1, 7);
