@@ -425,11 +425,11 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
                 </ul>
                 <aside class="notes">
                     <ul>
+                        <li>Higher Order functions take function(s) as input or returns a function</li>
+                        <li>Map, filter and fold can generally be applied to other data structures too such as trees</li>
                         <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
-                        <li>Tail call: the last instruction in the function is the call to another function (which will be the same function if recursive), so the function just needs to return the value from the next call. This means recursive calls can be done in constant stack space.</li>
-                        <li>Map, filter and fold can be applied to other data structures too such as trees</li>
-                        <li>Comes from mathematical set comprehension</li>
-                        <li>Tail call-optimisation: optimized by a compiler into the same code used to implement iteration in imperative languages. </li>
+                        <li>LC - Comes from mathematical set comprehension</li>
+                        <li>Tail call-optimisation: optimized by a compiler into the same code used to implement iteration</li>
                     </ul>
                 </aside>
             </section>
@@ -443,6 +443,7 @@ my @mult = map { $_ * 2 } @list;</code></pre>
 my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <div class="fragment">@big_numbers = 8 5 7</div>
                 <aside class="notes">
+                    Work on other data structures in perl?
                 </aside>
             </section>
             <section>
@@ -451,6 +452,7 @@ my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <img src='images/foldl.png'/>
                 <aside class="notes">
                     Just before I show you a fold in perl, here is a generic example of a fold just so you know what we are talking about here.
+                    Only lists in perl
                 </aside>
             </section>
             <section>
