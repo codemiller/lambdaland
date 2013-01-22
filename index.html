@@ -130,22 +130,21 @@
             <section>
                 <ul>
                     <li>Ability to reason about program behaviour</li>                                                                               
-                    <li class="fragment">Limits or eliminates <span class="blue">side-effects</span></li>
-                    <li class="fragment">Improved code reuse through modularity and function composition. eg.</li>
+                    <li class="fragment">Removing <span class="blue">side-effects</span> aids concurrent programming</li>
+                    <li class="fragment">Modularity and function composition aids code reuse. eg.</li>
                     <ul class="fragment">
                         <li>myfunc = toUpper . trim</li>
-                        <li>myfunc("Steve      ") -> "STEVE"</li></ul>
-                    <li class="fragment">More succinct programs</li>
-                    <li class="fragment">Automated test generation - eg. QuickCheck, ScalaCheck</li>
+                        <li>myfunc("abracadabra&nbsp; &nbsp; &nbsp;") -> "ABRACADABRA"</li></ul>
+                    <li class="fragment">Programs are more succinct</li>
+                    <li class="fragment">Automated test generation</li>
                 </ul>
                 <aside class="notes">
                     <ul>
-                        <li>Improved ability to reason about program behaviour; referential transparency means you can use equational reasoning on your code</li>
-                        <li> - Feels more like maths</li>
-                        <li>No side effects - means parallel programming much simper.</li>
-                        <li>Better support for structured programming. Approach leads to more modular code; can use function composition; encourages code reuse</li>
+                        <li>Something called referential transparency means you can use equational reasoning on your code - Feels more like maths</li>
+                        <li>and reduces places where bugs crop up</li>
+                        <li>Function composition - general example here</li>
                         <li>Programs often more succinct and modular</li>
-                        <li>Automated test generation</li>
+                        <li>ScalaCheck, QuickCheck - automated specification-based testing. Has been reimplemented in many languages.</li>
                     </ul>
                 </aside>
             </section>
@@ -156,6 +155,10 @@
                     — Simon Peyton Jones (Haskell Creator), YOW! 2011
                 </div>
                 <aside class="notes">
+                    The final reason is from the mouth of Simon Peyton Jones at Yow.
+                    I also heard someone say it's like learning a second human language. You assume that others are basically a variation on your own because you have nothing to compare it with.
+                    Exposure to others, particular ones that aren't related to what you already know, is instructive.
+                    Gives you more ways to solve problems.
                 </aside>
             </section>
         </section>
@@ -172,13 +175,13 @@
                 <ul>
                     <li class='fragment'>Protects code from misuse</li>
                     <li class='fragment'>Unchanged parts of structures can be shared between old and new copies, so it's not so wasteful as you might think</li>
-                    <li class='fragment'>Immutable data is thread-safe</li>
-                    <li class='fragment'>Encourages us not to throw away potentially useful&nbsp;data</li>
+                    <li class='fragment'><span class="blue">Immutable</span> data can safely be shared among multiple threads</li>
+                    <li class='fragment'>Encourages us not to throw away potentially useful data</li>
                     </ul>
                 <aside class="notes">
                     <ul>
-                        <li>Making data immutable allows us to protect code from misuse</li>
-                        <li></li>
+                        <li>Consider String object in Java - it's hard to do bad stuff with it</li>
+                        <li>Instead of altering existing values, altered copies are created and the original is preserved. Since the unchanged parts of the structure cannot be modified, they can often be shared between the old and new copies, which saves memory.</li>
                         <li>Using immutable data makes concurrency easier as thread-safe</li>
                         <li>Embracing immutable data also encourages us not to discard data that may wind up being useful. Ie: as seen in the event sourcing model, a customer putting something in their online shopping cart and then taking it out again may not be reflected in the end state, but this information still tells us something very valuable</li>
                         <li>This is also being embraced in the big data world; Twitter engineer Nathan Marz asserted in his YOW! 2012 talk that the relational database would be a footnote in history because of its mutability. He claims we only need the C and R out of CRUD.</li>
@@ -413,15 +416,20 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
                     <ul><li class="fragment"><span class="blue">Map</span> applies a function to every element in a list</li>
                     <li class="fragment"><span class="blue">Filter</span> filters a list based on a <i>test</i> (predicate)</li>
                     <li class="fragment"><span class="blue">Fold</span> takes a function and <i>folds</i> it in between the elements of a list</li></ul>
-                    <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax to <span class="blue">fold</span></li>
-                    <li class="fragment">Recursion criticism: Can be slower and wasteful in some languages. Use <span class="blue">tail-call optimisation</span> if you&nbsp;can
-                    </li>
+                    <li class="fragment"><span class="blue">List Comprehension</span> - alternative syntax</li>
+                    <div class="fragment">
+                        <li>Recursion criticism: Can be slower and wasteful due to having to maintain a stack
+                            <ul><li>Use tail recursion if your compiler supports <span class="blue">tail-call optimisation</span></li></ul>
+                        </li>
+                    </div>
                 </ul>
                 <aside class="notes">
                     <ul>
                         <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
                         <li>Tail call: the last instruction in the function is the call to another function (which will be the same function if recursive), so the function just needs to return the value from the next call. This means recursive calls can be done in constant stack space.</li>
                         <li>Map, filter and fold can be applied to other data structures too such as trees</li>
+                        <li>Comes from mathematical set comprehension</li>
+                        <li>Tail call-optimisation: optimized by a compiler into the same code used to implement iteration in imperative languages. </li>
                     </ul>
                 </aside>
             </section>
