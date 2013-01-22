@@ -144,7 +144,7 @@
                         <li>and reduces places where bugs crop up</li>
                         <li>Function composition - general example here</li>
                         <li>Programs often more succinct and modular</li>
-                        <li>ScalaCheck, QuickCheck - automated specification-based testing. Has been reimplemented in many languages.</li>
+                        <li>ScalaCheck, QuickCheck - automated specification-based testing. Has been reimplemented in many languages. Particularly good in FP.</li>
                     </ul>
                 </aside>
             </section>
@@ -429,7 +429,7 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
                         <li>Map, filter and fold can generally be applied to other data structures too such as trees</li>
                         <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
                         <li>LC - Comes from mathematical set comprehension</li>
-                        <li>Tail call-optimisation: optimized by a compiler into the same code used to implement iteration</li>
+                        <li>Tail Recursion - Recursive call is at end of calling function. optimized by a compiler into the same code used to implement iteration</li>
                     </ul>
                 </aside>
             </section>
@@ -444,11 +444,12 @@ my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <div class="fragment">@big_numbers = 8 5 7</div>
                 <aside class="notes">
                     Work on other data structures in perl?
+                    Grep can take regex too like unix grep.
                 </aside>
             </section>
             <section>
                 <h3>Fold Example</h3>
-                <pre><code>fold + 0 (3,5,2,1)</code></pre>
+                <pre><code>fold + 0 [3,5,2,1]</code></pre>
                 <img src='images/foldl.png'/>
                 <aside class="notes">
                     Just before I show you a fold in perl, here is a generic example of a fold just so you know what we are talking about here.
