@@ -37,7 +37,7 @@
             <h3>Lambda Land in Layperson's&nbsp;Language</h3>
 
             <p>
-                <img src="images/lambda-blue.svg" width="30%" style="background: none; border: none; box-shadow: none"/>
+                <img src="images/lambda-blue.svg" width="25%" style="background: none; border: none; box-shadow: none"/>
             </p>
 
             <p>Katie Miller (<a href="http://www.twitter.com/codemiller" target="_blank">@codemiller</a>) &amp; Steve
@@ -81,7 +81,7 @@
                         what stuff <em>is</em>." — Learn You A&nbsp;Haskell
                     </li>
                     <li class="fragment">Functions are <span class="blue">first-class</span>; <span class="blue">higher-order functions</span>
-                        take other functions as arguments or return a function as a&nbsp;result
+                        take other functions as arguments
                     </li>
                 </ul>
                 <aside class="notes">
@@ -98,7 +98,7 @@
             <section>
                 <ul>
                     <li>GitHub rankings: <strong>Scala</strong> #15, <strong>Haskell</strong> #18,
-                        <strong>Clojure</strong> #23, <strong>Erlang</strong> #28, <strong>Common Lisp</strong> #31,
+                        <strong>Clojure</strong> #23, <strong>Common Erlang</strong> #28, <strong>Lisp</strong> #31,
                         <strong>Scheme</strong> #32, <strong>Ocaml</strong> #40
                     </li>
                     <li class="fragment">New languages: <strong>Scala</strong> (2003), <strong>F#</strong> (2005),
@@ -133,7 +133,7 @@
                     <li class="fragment">Removing <span class="blue">side-effects</span> aids concurrent programming</li>
                     <li class="fragment">Modularity and function composition aids code reuse. eg.</li>
                     <ul class="fragment">
-                        <li>myfunc = toUpper . trim</li>
+                        <li>myfunc = toUpper ( trim ( x ) )</li>
                         <li>myfunc("abracadabra&nbsp; &nbsp; &nbsp;") -> "ABRACADABRA"</li></ul>
                     <li class="fragment">Programs are more succinct</li>
                     <li class="fragment">Automated test generation</li>
@@ -317,8 +317,7 @@ void saveDog(final AnimalCallback&lt;Dog&gt; cb, final Dog dog) {
     } catch (final Exception ex) {
         cb.generalException(ex);
     }
-}
-                </code></pre>
+} </code></pre>
                 <aside class="notes">
                 </aside>
             </section>
@@ -426,9 +425,9 @@ void saveDog(AnimalCallback&lt;Dog&gt; cb, Dog dog) {
                 <aside class="notes">
                     <ul>
                         <li>Higher Order functions take function(s) as input or returns a function</li>
-                        <li>Map, filter and fold can generally be applied to other data structures too such as trees</li>   
-                        <li>Fold is magic, you can make most of the other functions out of clever use of fold</li>
-                        <li>LC - Comes from mathematical set comprehension</li>
+                        <li>Map, filter and fold can generally be applied to other data structures too such as trees.</li>   
+                        <li>Fold is magic, you can make most of the other functions out of clever use of fold. Fold is like reduce.</li>
+                        <li>LC - Comes from mathematical set comprehension. Don't over explain this.</li>
                         <li>Tail Recursion - Recursive call is at end of calling function. optimized by a compiler into the same code used to implement iteration. Trampolining - workaround in JVM.</li>
                         
                     </ul>
@@ -450,7 +449,9 @@ my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
             </section>
             <section>
                 <h3>Fold Example</h3>
-                <pre><code>fold + 0 [3,5,2,1]</code></pre>
+                <pre><code>fold(+,    0,   [3,5,2,1])
+     |     |       |
+    func start    list</code></pre>
                 <img src='images/foldl.png'/>
                 <aside class="notes">
                     Just before I show you a fold in perl, here is a generic example of a fold just so you know what we are talking about here.
@@ -470,6 +471,7 @@ my @big_numbers = grep { $_ > 4 } @numbers;</code></pre>
                 <div class="fragment">result: abcdefghijklmnopqrstuvwxyz (concat)</div>
                 </code></pre>
                 <aside class="notes">
+                    Use the initval, otherise you will get an undef for empty list.
                     Read Higher-order perl for more examples.
                 </aside>
             </section>
@@ -484,6 +486,7 @@ for x in range(10):
                 </div>
                 <div class="fragment">result: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</div>
                 <aside class="notes">
+                    Don't over explain this or try to justify the for in LC.
                 </aside>
             </section>
         </section>
